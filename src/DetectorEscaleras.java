@@ -5,19 +5,34 @@ import java.util.List;
 
 public class DetectorEscaleras {
 
+    public enum Grupo {
+        VACIO,
+        NON,
+        PAR,
+        TERNA,
+        CUARTA,
+        QUINTA,
+        SEXTA,
+        SEPTIMA,
+        OCTAVA,
+        NOVENA,
+        DECIMA
+    }
     public static String getEscaleras(Carta[] cartas) {
         String mensaje = "No se encontraron escaleras de la misma pinta";
-        List<String> todasLasEscaleras = new ArrayList<>(); // Lista para almacenar todas las escaleras encontradas
+        List<String> todasLasEscaleras = new ArrayList<>(); //almacenamiento de escaleras
         StringBuilder escaleraActual = new StringBuilder();
         int contadorEscalera = 1;
 
         Carta[] cartasOrdenadas = Arrays.copyOf(cartas, cartas.length);
         Arrays.sort(cartasOrdenadas, (c1, c2) -> {
-            int nombreComparison = c1.getNombre().ordinal() - c2.getNombre().ordinal();
-            if (nombreComparison == 0) {
-                return c1.getPinta().ordinal() - c2.getPinta().ordinal();
+            // Primero comparar por pinta
+            int pintaComparison = c1.getPinta().ordinal() - c2.getPinta().ordinal();
+            if (pintaComparison != 0) {
+                return pintaComparison;
             }
-            return nombreComparison;
+            // Si las pintas son iguales, comparar por valor
+            return c1.getNombre().ordinal() - c2.getNombre().ordinal();
         });
 
         for (int i = 0; i < cartasOrdenadas.length - 1; i++) {
@@ -31,7 +46,7 @@ public class DetectorEscaleras {
             } else {
                 if (contadorEscalera >= 2) {
                     escaleraActual.append(" de ").append(cartasOrdenadas[i].getPinta());
-                    todasLasEscaleras.add(escaleraActual.toString()); // Agregar la escalera a la lista
+                    todasLasEscaleras.add(clasificarEscalera(escaleraActual.toString(), contadorEscalera));
                 }
                 contadorEscalera = 1;
                 escaleraActual.setLength(0);
@@ -39,7 +54,7 @@ public class DetectorEscaleras {
         }
         if (contadorEscalera >= 2) {
             escaleraActual.append(" de ").append(cartasOrdenadas[cartasOrdenadas.length - 1].getPinta());
-            todasLasEscaleras.add(escaleraActual.toString()); // Agregar la última escalera a la lista
+            todasLasEscaleras.add(clasificarEscalera(escaleraActual.toString(), contadorEscalera));
         }
 
         if (!todasLasEscaleras.isEmpty()) {
@@ -53,4 +68,37 @@ public class DetectorEscaleras {
         String sumaCartasSueltas = CalculadorCartasSueltas.calcularSumaCartasSueltas(cartas);
         return mensaje + "\n" + sumaCartasSueltas;
     }
-}
+    private static String clasificarEscalera(String escalera, int longitud) {
+        Grupo grupo = Grupo.VACIO;
+        switch (longitud) {
+            case 2:
+                grupo = Grupo.PAR;
+                break;
+            case 3:
+                grupo = Grupo.TERNA;
+                break;
+            case 4:
+                grupo = Grupo.CUARTA;
+                break;
+            case 5:
+                grupo = Grupo.QUINTA;
+                break;
+            case 6:
+                grupo = Grupo.SEXTA;
+                break;
+            case 7:
+                grupo = Grupo.SEPTIMA;
+                break;
+            case 8:
+                grupo = Grupo.OCTAVA;
+                break;
+            case 9:
+                grupo = Grupo.NOVENA;
+                break;
+            case 10:
+                grupo = Grupo.DECIMA;
+                break;
+        }
+        return grupo.toString() + ": " + escalera;
+
+    }}

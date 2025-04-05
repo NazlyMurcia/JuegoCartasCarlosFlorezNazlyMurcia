@@ -8,6 +8,6 @@ public enum Grupo {
     SEXTA,
     SEPTIMA,
     OCTAVA,
-    MOVENA,
+    NOVENA,
     DECIMA
 }
