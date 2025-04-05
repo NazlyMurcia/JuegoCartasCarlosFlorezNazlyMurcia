@@ -1,0 +1,23 @@
+{
+    "java.project.sourcePaths": ["src"],
+    "java.project.outputPath": "bin",
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar"
+    ],
+    "configurations": [
+        {
+            "type": "java",
+            "name": "FrmJuego",
+            "request": "launch",
+            "mainClass": "FrmJuego",
+            "projectName": "UDEA_TP_JuegoCartas__G3-main_2150cc2"
+        },
+        {
+            "type": "java",
+            "name": "App",
+            "request": "launch",
+            "mainClass": "App",
+            "projectName": "UDEA_TP_JuegoCartas__G3-main_2150cc2"
+        }
+    ]
+}
